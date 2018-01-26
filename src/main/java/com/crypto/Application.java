@@ -14,9 +14,11 @@ public class Application {
         CoinDictionary dictionary = CoinDictionary.getInstance();
 
         CoinMarketCap cmc = new CoinMarketCap();
-        Map<String, List<String>> subscribedTickers = new HashMap<>();
-        subscribedTickers.put("Jeffrey", Arrays.asList("BTC", "ETH"));
+        cmc.saveAllExchangeCoins();
 
-        cmc.filterInformation(subscribedTickers);
+//        Map<String, List<String>> subscribedTickers = new HashMap<>();
+//        subscribedTickers.put("Jeffrey", Arrays.asList("BTC", "ETH"));
+//
+//        cmc.filterInformation(subscribedTickers);
     }
 }
