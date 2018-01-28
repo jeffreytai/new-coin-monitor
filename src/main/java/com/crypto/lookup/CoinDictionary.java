@@ -1,6 +1,7 @@
 package com.crypto.lookup;
 
-import com.crypto.api.CoinMarketCap;
+import com.crypto.coinmarketcap.AddedCoinMonitor;
+import com.crypto.coinmarketcap.PriceCoinMonitor;
 import com.crypto.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +32,8 @@ public class CoinDictionary {
 
         logger.info("Creating ticker map");
 
-        CoinMarketCap tm = new CoinMarketCap();
-        dictionary = tm.createTickerMapping();
+        PriceCoinMonitor pcm = new PriceCoinMonitor();
+        dictionary = pcm.createTickerMapping();
     }
 
     /**
