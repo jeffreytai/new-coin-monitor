@@ -1,24 +1,21 @@
 package com.crypto;
 
-import com.crypto.api.CoinMarketCap;
-import com.crypto.lookup.CoinDictionary;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.crypto.coinmarketcap.AddedCoinMonitor;
+import com.crypto.utils.HibernateUtils;
 
 public class Application {
 
     public static void main(String[] args) {
-        CoinDictionary dictionary = CoinDictionary.getInstance();
+//        CoinDictionary dictionary = CoinDictionary.getInstance();
 
-        CoinMarketCap cmc = new CoinMarketCap();
-        cmc.saveAllExchangeCoins();
+        AddedCoinMonitor cmc = new AddedCoinMonitor();
+        // Load the initial snapshot
+        // cmc.initializeSnapshot();
 
-//        Map<String, List<String>> subscribedTickers = new HashMap<>();
-//        subscribedTickers.put("Jeffrey", Arrays.asList("BTC", "ETH"));
-//
-//        cmc.filterInformation(subscribedTickers);
+        // Examine any newly added markets or exchanges
+         cmc.currentExchangeSnapshot();
+
+        // Clean up Hibernate connections
+        HibernateUtils.shutdown();
     }
 }

@@ -1,32 +1,26 @@
-package com.crypto.api;
+package com.crypto.coinmarketcap;
 
 import com.crypto.utils.ApiUtils;
 import com.crypto.utils.StreamUtils;
 import com.crypto.utils.StringUtils;
-import com.crypto.utils.WebUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CoinMarketCap {
+public class PriceCoinMonitor {
 
     /**
      * Logging
      */
-    private static final Logger logger = LoggerFactory.getLogger(CoinMarketCap.class);
+    private static final Logger logger = LoggerFactory.getLogger(PriceCoinMonitor.class);
 
     /**
      * Url to retrieve all tickers from CoinMarketCap
@@ -34,48 +28,9 @@ public class CoinMarketCap {
     private static final String ALL_TICKER_URL = "https://api.coinmarketcap.com/v1/ticker/";
 
     /**
-     * Base url for specific exchange
-     */
-    private static final String BASE_EXCHANGE_URL = "https://coinmarketcap.com/exchanges/";
-
-    /**
-     * Url to retrieve all exchanges and the respective listed coins
-     */
-    private static final String ALL_EXCHANGES_URL = "https://coinmarketcap.com/exchanges/volume/24-hour/all/";
-
-
-    /**
      * Constructor
      */
-    public CoinMarketCap() {}
-
-
-    public void saveAllExchangeCoins() {
-        Document doc = WebUtils.htmlDocument(ALL_EXCHANGES_URL);
-        Elements exchangeNames = doc.select(".table-responsive tr .volume-header a");
-
-        for (Element element : exchangeNames) {
-            String exchangeName = element.text();
-
-            String exchangeUrl = BASE_EXCHANGE_URL + StringUtils.urlFormattedString(exchangeName);
-
-            logger.info("Connecting to {}", exchangeUrl);
-            Document exchangeDoc = WebUtils.htmlDocument(exchangeUrl);
-
-            if (exchangeDoc == null) {
-                logger.error("Unable to connect to {}", exchangeUrl);
-            }
-
-            Elements activeMarkets = exchangeDoc.select("#exchange-markets tr .market-name");
-            for (Element market : activeMarkets) {
-                String coin = market.text();
-
-                String pair = market.parent().nextElementSibling().text();
-
-                logger.info("{} found for {}", pair, exchangeName);
-            }
-        }
-    }
+    public PriceCoinMonitor() {}
 
     /**
      * Pull all tickers from CoinMarketCap without limits
@@ -129,6 +84,4 @@ public class CoinMarketCap {
         return null;
 
     }
-
-
 }
